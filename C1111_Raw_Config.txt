@@ -1,0 +1,188 @@
+!
+! Last configuration change at 00:41:58 UTC Tue Oct 13 2026 by renashomelab
+!
+version 16.12
+service timestamps debug datetime msec
+service timestamps log datetime msec
+service password-encryption
+platform qfp utilization monitor load 80
+platform punt-keepalive disable-kernel-core
+!
+hostname renasRouter
+!
+boot-start-marker
+boot-end-marker
+!
+!
+enable secret 9 <REMOVED>
+!
+no aaa new-model
+call-home
+ ! If contact email address in call-home is configured as sch-smart-licensing@cisco.com
+ ! the email address configured in Cisco Smart License Portal will be used as contact email address to send SCH notifications.
+ contact-email-addr sch-smart-licensing@cisco.com
+ profile "CiscoTAC-1"
+  active
+  destination transport-method http
+  no destination transport-method email
+!
+ip domain name renashomelab
+ip dhcp excluded-address 10.10.20.1
+!
+ip dhcp pool Renas_Home
+ network 10.10.20.0 255.255.255.0
+ default-router 10.10.20.1
+ dns-server 8.8.8.8
+!
+!
+!
+login on-success log
+!
+!
+!
+!
+!
+!
+!
+subscriber templating
+multilink bundle-name authenticated
+!
+!
+!
+crypto pki trustpoint SLA-TrustPoint
+ enrollment pkcs12
+ revocation-check crl
+!
+crypto pki trustpoint TP-self-signed-1650328074
+ enrollment selfsigned
+ subject-name cn=IOS-Self-Signed-Certificate-1650328074
+ revocation-check none
+ rsakeypair TP-self-signed-1650328074
+!
+!
+crypto pki certificate chain SLA-TrustPoint
+ certificate ca 01
+  <REMOVED>
+        quit
+crypto pki certificate chain TP-self-signed-1650328074
+ certificate self-signed 01
+  <REMOVED>
+        quit
+!
+crypto pki certificate pool
+ cabundle nvram:ios_core.p7b
+!
+!
+license udi pid C1111-8PWA sn FGL2438LDBH
+memory free low-watermark processor 70177
+!
+diagnostic bootup level minimal
+!
+spanning-tree extend system-id
+!
+username renashomelab privilege 15 secret 9 $9$B7Tus68dEUhuDk$/HFs97zWIZHrUFjaNg2nzNRz9GCQ203Ez/RSKT7Khbo
+!
+redundancy
+ mode none
+!
+!
+vlan internal allocation policy ascending
+!
+!
+!
+!
+!
+!
+interface GigabitEthernet0/0/0
+ ip address dhcp
+ ip nat outside
+ negotiation auto
+!
+interface GigabitEthernet0/0/1
+ no ip address
+ negotiation auto
+!
+interface GigabitEthernet0/1/0
+ switchport access vlan 20
+ switchport mode access
+ switchport nonegotiate
+!
+interface GigabitEthernet0/1/1
+!
+interface GigabitEthernet0/1/2
+!
+interface GigabitEthernet0/1/3
+!
+interface GigabitEthernet0/1/4
+!
+interface GigabitEthernet0/1/5
+!
+interface GigabitEthernet0/1/6
+!
+interface GigabitEthernet0/1/7
+!
+interface Wlan-GigabitEthernet0/1/8
+ switchport access vlan 20
+ switchport mode access
+!
+interface Vlan1
+ no ip address
+!
+interface Vlan20
+ ip address 10.10.20.1 255.255.255.0
+ ip nat inside
+!
+ip forward-protocol nd
+ip http server
+ip http authentication local
+ip http secure-server
+ip nat inside source list 1 interface GigabitEthernet0/0/0 overload
+ip ssh version 2
+!
+!
+ip access-list standard NMS_ACL
+ 10 permit 10.10.20.0 0.0.0.255
+ip access-list standard SSH_ACCESS
+ 10 permit 10.10.20.0 0.0.0.255
+ 20 deny   any
+!
+!
+ip access-list standard 1
+ 10 permit 10.10.20.0 0.0.0.255
+!
+!
+snmp-server community renaslabsnmp RO NMS_ACL
+snmp-server contact renatokitamura@gmail.com
+!
+!
+control-plane
+!
+banner motd ^CDon't mess with my config!!Renas^C
+!
+line con 0
+ password 7 075D731C1F5B4B33161E2B
+ logging synchronous
+ login
+ transport input none
+ stopbits 1
+line vty 0 4
+ access-class SSH_ACCESS in
+ exec-timeout 0 0
+ password 7 06545D711D1C5B23001B160A21052629212B62677133
+ logging synchronous
+ login local
+ transport input ssh
+line vty 5 15
+ access-class SSH_ACCESS in
+ exec-timeout 0 0
+ password 7 06545D711D1C5B23001B160A21052629212B62677133
+ logging synchronous
+ login local
+ transport input ssh
+!
+!
+!
+!
+!
+!
+end
