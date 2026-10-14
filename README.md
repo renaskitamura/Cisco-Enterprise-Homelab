@@ -7,8 +7,8 @@ My home configuration guide using Cisco enterprise devices and configurations
 This repository documents the design, configuration, and active monitoring of a multi-VLAN enterprise network modeled for a Small-to-Medium Business (SMB). Built with physical Cisco routing and switching hardware, this project demonstrates proficiency in standard network engineering practices, strict traffic segmentation, secure device management, and Linux-based Network Management System (NMS) deployment.
 
 ## 🗺️ Network Topology
-> *(Note: to be done using Draw.io)*
-> `![Network Topology](diagrams/network_topology.drawio.svg)`
+> *(Note: live updating using Draw.io)*
+> ![Enterprise Network Topology](./diagrams/network_topology.drawio.svg)
 
 ## ⚙️ Hardware & Software Stack
 * **Edge Router:** Cisco C1111 Integrated Services Router (IOS-XE)
