@@ -8,7 +8,7 @@ This repository documents the design, configuration, and active monitoring of a 
 
 ## 🗺️ Network Topology
 > *(Note: to be done using Draw.io)*
-> `![Network Topology](diagrams/network_topology.png)`renaskitamura/Cisco-Enterprise-Homelab/diagrams/renashomelab.drawio
+> `![Network Topology](diagrams/network_topology.drawio.svg)`
 
 ## ⚙️ Hardware & Software Stack
 * **Edge Router:** Cisco C1111 Integrated Services Router (IOS-XE)
